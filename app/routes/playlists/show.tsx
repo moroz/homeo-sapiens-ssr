@@ -1,11 +1,12 @@
 import React from "react";
 import type { Route } from "./+types/show";
-import { getPlaylist } from "../../../lib/api";
+import { getPlaylist } from "../../api";
 import { Card, CardContent, CardFooter, CardTitle } from "~/components/ui/card";
 import { Link } from "react-router";
 import { Button } from "~/components/ui/button";
 import { Badge } from "~/components/ui/badge";
 import { formatDuration } from "~/helpers/time";
+import { VideoThumbnail } from "~/components/video-thumbnail";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -32,12 +33,9 @@ export default function ShowPlaylist({ loaderData }: Route.ComponentProps) {
           const url = `/playlists/${playlist.slug}/videos/${video.slug}`;
           return (
             <Card key={video.id} className="pt-0">
-              <Link to={url} className="aspect-video bg-slate-100"></Link>
+              <VideoThumbnail video={video} playlist={playlist} duration={video.durationSeconds} />
               <CardContent>
-                <div className="flex justify-between">
-                  <CardTitle>{video.titleEn}</CardTitle>
-                  <Badge variant="secondary">{formatDuration(video.durationSeconds)}</Badge>
-                </div>
+                <CardTitle>{video.titleEn}</CardTitle>
               </CardContent>
               <CardFooter>
                 <Link to={url} className="w-full">

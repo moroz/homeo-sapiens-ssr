@@ -1,5 +1,5 @@
 import type { Route } from "./+types/home";
-import { listPlaylists } from "../../lib/api";
+import { listPlaylists } from "../api";
 import { Link } from "react-router";
 import {
   Card,
@@ -13,6 +13,8 @@ import { Button } from "~/components/ui/button";
 import { Badge } from "~/components/ui/badge";
 import { formatDuration } from "~/helpers/time";
 import React from "react";
+import { VideoThumbnail } from "~/components/video-thumbnail";
+import { PlaylistThumbnailCard } from "~/components/playlist-thumbnail-card";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -38,7 +40,14 @@ export default function Home({ loaderData }: Route.ComponentProps) {
 
           return (
             <Card className="pt-0" key={playlist.id}>
-              <Link to={url} className="aspect-video bg-slate-100"></Link>
+              <Link to={url} className="block">
+                <PlaylistThumbnailCard
+                  title={playlist.titleEn}
+                  locale="en"
+                  videoCount={playlist.videoCount}
+                  totalDuration={playlist.totalDuration}
+                />
+              </Link>
               <CardContent>
                 <div className="flex justify-between">
                   <CardTitle>{playlist.titleEn}</CardTitle>

@@ -25,6 +25,8 @@ export interface Video {
   titleEn: string;
   durationSeconds: number;
   slug: string;
+  thumbnailEnId: UUID | null;
+  thumbnailPlId: UUID | null;
   createdAt: ISOTimestamp;
   updatedAt: ISOTimestamp;
 }
