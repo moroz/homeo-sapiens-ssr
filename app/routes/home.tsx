@@ -10,6 +10,9 @@ import {
   CardTitle,
 } from "~/components/ui/card";
 import { Button } from "~/components/ui/button";
+import { Badge } from "~/components/ui/badge";
+import { formatDuration } from "~/helpers/time";
+import React from "react";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -23,28 +26,26 @@ export async function loader({ params }: Route.LoaderArgs) {
   return { playlists };
 }
 
-function formatDuration(duration: number) {
-  const hours = String(Math.floor(duration / 3600)).padStart(2, "0");
-  const minutes = String(Math.floor((duration % 3600) / 60)).padStart(2, "0");
-  const seconds = String(Math.floor(duration % 60)).padStart(2, "0");
-  return `${hours}:${minutes}:${seconds}`;
-}
-
 export default function Home({ loaderData }: Route.ComponentProps) {
   if (!loaderData.playlists.data.length) return null;
 
   return (
-    <>
-      <div className="container mx-auto grid grid-cols-3 gap-6 my-12">
+    <div className="container mx-auto">
+      <h2 className="text-3xl font-bold leading-loose">Playlists</h2>
+      <div className="grid grid-cols-3 gap-6">
         {loaderData.playlists.data.map((playlist) => {
           const url = `/playlists/${playlist.slug}`;
 
           return (
             <Card className="pt-0" key={playlist.id}>
               <Link to={url} className="aspect-video bg-slate-100"></Link>
-              <CardHeader className="flex justify-between">
-                <CardTitle>{playlist.titleEn}</CardTitle>
-              </CardHeader>
+              <CardContent>
+                <div className="flex justify-between">
+                  <CardTitle>{playlist.titleEn}</CardTitle>
+                  <Badge variant="secondary">{formatDuration(playlist.totalDuration)}</Badge>
+                </div>
+                <CardDescription>{playlist.videoCount} videos</CardDescription>
+              </CardContent>
               <CardFooter>
                 <Link to={`/playlists/${playlist.slug}`} className="w-full">
                   <Button className="w-full cursor-pointer">Watch</Button>
@@ -54,6 +55,6 @@ export default function Home({ loaderData }: Route.ComponentProps) {
           );
         })}
       </div>
-    </>
+    </div>
   );
 }
