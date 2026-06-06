@@ -1,6 +1,7 @@
 import type { Route } from "./+types/home";
 import { listPlaylists } from "../../lib/api";
 import { Link } from "react-router";
+import { Card, CardHeader, CardTitle } from "~/components/ui/card";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -18,10 +19,12 @@ export default function Home({ loaderData }: Route.ComponentProps) {
   return (
     <div className="container mx-auto space-y-4">
       {loaderData.playlists.data.map((playlist) => (
-        <Link to={`/playlists/${playlist.id}`}>
-          <article key={playlist.id} className="border border-slate-900 p-8">
-            <p>{playlist.titleEn}</p>
-          </article>
+        <Link to={`/playlists/${playlist.id}`} key={playlist.id} className="block">
+          <Card>
+            <CardHeader>
+              <CardTitle>{playlist.titleEn}</CardTitle>
+            </CardHeader>
+          </Card>
         </Link>
       ))}
     </div>
