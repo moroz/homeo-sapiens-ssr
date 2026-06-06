@@ -1,6 +1,6 @@
 import React from "react";
 import type { Route } from "./+types/show";
-import { getPlaylist, listPlaylists } from "../../../lib/api";
+import { getPlaylist } from "../../../lib/api";
 
 export function meta({}: Route.MetaArgs) {
   return [
